@@ -114,6 +114,9 @@ class RCSNode {
             context.restore()
         }
         context.restore()
+        if (this.prev) {
+            this.prev.draw(context)
+        }
     }
 
     update(cb : Function) {
@@ -157,4 +160,27 @@ class RectCompleteStep {
     startUpdating(cb : Function) {
         this.curr.startUpdating(cb)
     }
+}
+
+class Renderer {
+    rcs : RectCompleteStep = new RectCompleteStep()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.rcs.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.rcs.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.rcs.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+
+
 }
