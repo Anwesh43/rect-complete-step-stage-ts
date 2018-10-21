@@ -103,6 +103,9 @@ class RCSNode {
         context.translate(this.i * gap + gap, h/2)
         for (var j = 0; j < 2; j++) {
             const sc : number = Math.min(0.5, Math.max(0, this.state.scale - 0.5 * j)) * 2
+            if (sc == 0) {
+                break
+            }
             const wu = size * sc, hu = hSize * sc
             context.save()
             context.scale(1 - 2 * j, 1 - 2 * j)
